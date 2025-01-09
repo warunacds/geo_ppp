@@ -13,24 +13,35 @@ class GeoPPPFetcher
   private
 
   def self.fetch_geo
-	 response = make_request(GEO_API_URL)
-	 {
-		country_code_iso_alpha2: response['country_code'],
-		country_name: response['country_name']
-	 }
+	 uri = URI(GEO_API_URL)
+	 response = fetch_with_redirect(uri)
+	 handle_response(response)
   end
 
   def self.fetch_ppp(geo)
-	 url = "#{PPP_API_URL}#{geo[:country_code_iso_alpha2]}"
-	 ppp_response = make_request(url)
-	 geo.merge(ppp: ppp_response['ppp'])
+	 uri = URI("#{PPP_API_URL}#{country_code}")
+	 response = fetch_with_redirect(uri)
+	 handle_response(response)
   end
 
-  def self.make_request(url)
-	 uri = URI(url)
-	 response = Net::HTTP.get(uri)
-	 JSON.parse(response)
-  rescue StandardError => e
-	 raise "Failed to fetch data from #{url}: #{e.message}"
+  def self.fetch_with_redirect(uri, limit = 10)
+	  raise 'Too many HTTP redirects' if limit.zero?
+
+	  response = Net::HTTP.get_response(uri)
+	  case response
+	  when Net::HTTPRedirection
+		 new_uri = URI(response['location'])
+		 fetch_with_redirect(new_uri, limit - 1)
+	  else
+		 response
+	  end
+  end
+
+  def self.handle_response(response)
+	  if response.is_a?(Net::HTTPSuccess)
+		 JSON.parse(response.body)
+	  else
+		 raise "HTTP Error: #{response.code} #{response.message}"
+	  end
   end
 end
