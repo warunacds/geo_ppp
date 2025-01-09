@@ -1,4 +1,4 @@
-# GeoPpp
+# Geo Purchasing Power Parity
 
 Sell your digital products at purchasing power parity for based on users country. Not everyone is able to pay for the default pricing of the high income world. Cup of Coffee in Colombia or Indonesia cost less than USA or Australia, apply same principal to your digital products and get more customers. This package is inspired by `purchasing-power-parity` npm and uses their API.
 
@@ -33,18 +33,18 @@ will return a following json structure, you could use ```pppConversionFactor``` 
 ```
 
 ```ruby
-	def index
-		original_price = 79.99
+def index
+	original_price = 79.99
 
-		begin
-			response = GeoPPPFetcher.fetch
-			discounted_price = original_price * response['pppConversionFactor']
-			data = { original_price: original_price, discounted_price: discounted_price }
-			render json: { success: true, data: data }
-		rescue StandardError => e
-			render json: { success: false, error: e.message }, status: :unprocessable_entity
-		end
+	begin
+		response = GeoPPPFetcher.fetch
+		discounted_price = original_price * response['pppConversionFactor']
+		data = { original_price: original_price, discounted_price: discounted_price }
+		render json: { success: true, data: data }
+	rescue StandardError => e
+		render json: { success: false, error: e.message }, status: :unprocessable_entity
 	end
+end
 ```
 
 
