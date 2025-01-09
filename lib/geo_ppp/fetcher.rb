@@ -19,7 +19,7 @@ class GeoPPPFetcher
   end
 
   def self.fetch_ppp(geo)
-	 uri = URI("#{PPP_API_URL}#{country_code}")
+	 uri = URI("#{PPP_API_URL}#{geo.country_code}")
 	 response = fetch_with_redirect(uri)
 	 handle_response(response)
   end
