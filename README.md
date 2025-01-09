@@ -34,16 +34,16 @@ will return a following json structure, you could use ```pppConversionFactor``` 
 
 ```ruby
 def index
-	original_price = 79.99
+  original_price = 79.99
 
-	begin
-		response = GeoPPPFetcher.fetch
-		discounted_price = original_price * response['pppConversionFactor']
-		data = { original_price: original_price, discounted_price: discounted_price }
-		render json: { success: true, data: data }
-	rescue StandardError => e
-		render json: { success: false, error: e.message }, status: :unprocessable_entity
-	end
+  begin
+    response = GeoPPPFetcher.fetch
+	 discounted_price = original_price * response['pppConversionFactor']
+	 data = { original_price: original_price, discounted_price: discounted_price }
+	 render json: { success: true, data: data }
+  rescue StandardError => e
+    render json: { success: false, error: e.message }, status: :unprocessable_entity
+  end
 end
 ```
 
