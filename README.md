@@ -1,28 +1,54 @@
 # GeoPpp
 
-TODO: Delete this and the text below, and describe your gem
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/geo_ppp`. To experiment with that code, run `bin/console` for an interactive prompt.
+Sell your digital products at purchasing power parity for based on users country. Not everyone is able to pay for the default pricing of the high income world. Cup of Coffee in Colombia or Indonesia cost less than USA or Australia, apply same principal to your digital products and get more customers. This package is inspired by `purchasing-power-parity` npm and uses their API.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
-Install the gem and add to the application's Gemfile by executing:
-
+Add this line to your application's Gemfile
 ```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+gem 'geo_ppp'
+```
+
+and run bundle
+```bash
+bundle install
 ```
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
 ```bash
-gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+gem install geo_pp
 ```
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+GeoPPPFetcher.fetch
+```
+
+will return a following json structure, you could use ```pppConversionFactor``` to convert it price based on user's geographic location
+
+```ruby
+{"countryCodeIsoAlpha2":"LK","countryCodeIsoAlpha3":"LKA","currenciesCountry":{"LKR":{"symbol":"Rs  රු","name":"Sri Lankan rupee"}},"currencyMain":{"exchangeRate":300.701498,"name":"USD","symbol":"$"},"ppp":10040.0,"pppConversionFactor":0.33}
+```
+
+```ruby
+	def index
+		original_price = 79.99
+
+		begin
+			response = GeoPPPFetcher.fetch
+			discounted_price = original_price * response['pppConversionFactor']
+			data = { original_price: original_price, discounted_price: discounted_price }
+			render json: { success: true, data: data }
+		rescue StandardError => e
+			render json: { success: false, error: e.message }, status: :unprocessable_entity
+		end
+	end
+```
+
+GeoPPP
+
 
 ## Development
 
@@ -40,4 +66,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the GeoPpp project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/geo_ppp/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the geo_ppp project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/geo_ppp/blob/master/CODE_OF_CONDUCT.md).
