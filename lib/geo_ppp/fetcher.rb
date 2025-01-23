@@ -3,7 +3,8 @@ require 'json'
 
 class GeoPPPFetcher
   GEO_API_URL = 'https://freegeoip.app/json/'.freeze
-  PPP_API_URL = 'https://api.purchasing-power-parity.com/?target='.freeze
+	# https://api.purchasing-power-parity.com/?target=ID redirects to https://ppp-api.fly.dev/?target=ID and then results are returned
+  PPP_API_URL = 'https://ppp-api.fly.dev/?target='.freeze
 
   def self.fetch
 	 geo = fetch_geo
