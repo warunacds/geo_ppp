@@ -25,8 +25,14 @@ gem install geo_pp
 ```ruby
 GeoPPPFetcher.fetch
 ```
+will get the purchasing power parity data based on user's IP address.
 
-will return a following json structure, you could use ```pppConversionFactor``` to convert it price based on user's geographic location
+```ruby
+GeoPPPFetcher.fetch('LK')
+```
+will get the purchasing power parity data based on country code provided.
+
+Both above will return a following json structure, you could use ```pppConversionFactor``` to convert it price based on user's geographic location
 
 ```ruby
 {"countryCodeIsoAlpha2":"LK","countryCodeIsoAlpha3":"LKA","currenciesCountry":{"LKR":{"symbol":"Rs  රු","name":"Sri Lankan rupee"}},"currencyMain":{"exchangeRate":300.701498,"name":"USD","symbol":"$"},"ppp":10040.0,"pppConversionFactor":0.33}

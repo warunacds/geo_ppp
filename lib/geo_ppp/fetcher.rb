@@ -5,9 +5,13 @@ class GeoPPPFetcher
   GEO_API_URL = 'https://freegeoip.app/json/'.freeze
   PPP_API_URL = 'https://api.purchasing-power-parity.com/?target='.freeze
 
-  def self.fetch
-	 geo = fetch_geo
-	 fetch_ppp(geo)
+  def self.fetch(country_code = nil)
+		geo = if country_code.nil?
+			fetch_geo
+		else
+			{ 'country_code' => country_code }
+		end
+	 	fetch_ppp(geo)
   end
 
   private
